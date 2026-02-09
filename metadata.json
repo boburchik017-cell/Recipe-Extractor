@@ -1,0 +1,5 @@
+{
+  "name": "Recipe Extractor",
+  "description": "An application that generates a recipe based on a cooking video link. Paste the URL of a cooking video, and the AI will provide the ingredients and instructions to recreate the dish.",
+  "requestFramePermissions": []
+}

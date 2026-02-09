@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Recipe Extractor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+  }
+}
+</script>
+<style>
+    body {
+        background-color: #f9fafb; /* bg-gray-50 */
+        color: #1f2937; /* text-gray-800 */
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    html.dark body {
+        background-color: #0f172a !important; /* Slightly deeper dark blue/black */
+        color: #ffffff !important; 
+    }
+
+    /* Force all text elements to be white in dark mode */
+    html.dark h1, 
+    html.dark h2, 
+    html.dark h3, 
+    html.dark h4, 
+    html.dark p, 
+    html.dark span, 
+    html.dark label,
+    html.dark li,
+    html.dark div:not(.bg-rose-500) {
+        color: #ffffff !important;
+    }
+
+    /* Ensure placeholders are visible in dark mode */
+    html.dark input::placeholder,
+    html.dark textarea::placeholder {
+        color: #94a3b8 !important;
+    }
+
+    .background-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .background-container::before, .background-container::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        will-change: transform;
+    }
+
+    .background-container::before {
+        width: 500px;
+        height: 500px;
+        background-image: radial-gradient(circle, rgba(251, 113, 133, 0.4) 0%, rgba(251, 113, 133, 0) 70%);
+        top: -10%;
+        left: -10%;
+        animation: move-blob-1 20s ease-in-out infinite alternate;
+    }
+
+    .background-container::after {
+        width: 400px;
+        height: 400px;
+        background-image: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0) 70%);
+        bottom: -10%;
+        right: -10%;
+        animation: move-blob-2 25s ease-in-out infinite alternate;
+    }
+
+    #root {
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes move-blob-1 {
+        from { transform: translate(-20%, -20%) rotate(0deg) scale(1); }
+        to { transform: translate(20%, 20%) rotate(360deg) scale(1.2); }
+    }
+    
+    @keyframes move-blob-2 {
+        from { transform: translate(20%, 20%) rotate(0deg) scale(1); }
+        to { transform: translate(-20%, -20%) rotate(-360deg) scale(0.9); }
+    }
+    
+    /* Glassmorphism Effect */
+    .glass-effect {
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    html.dark .glass-effect {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Custom Scrollbar for Dark Mode */
+    html.dark ::-webkit-scrollbar {
+        width: 8px;
+    }
+    html.dark ::-webkit-scrollbar-track {
+        background: #1e293b;
+    }
+    html.dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+    }
+    html.dark ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+
+    /* Standard Animation Keyframes */
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+</style>
+</head>
+  <body>
+    <div class="background-container"></div>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
