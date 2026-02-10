@@ -41,7 +41,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, videoUrl, onNewSearch, 
   const [isCopied, setIsCopied] = useState(false);
   const [newComment, setNewComment] = useState("");
 
-  const shareText = `Check out this recipe for ${recipe.recipeName}! Found via the Video Recipe Extractor. Original video: ${videoUrl}`;
+  // Professional white-label share text
+  const shareText = `ChefSnap found this amazing recipe for ${recipe.recipeName}! check it out: ${videoUrl}`;
 
   const handleCopy = () => {
     playClickSound();
@@ -60,110 +61,127 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, videoUrl, onNewSearch, 
   };
 
   return (
-    <div className="glass-effect rounded-xl shadow-lg p-6 sm:p-8 animate-fade-in-up w-full">
+    <div className="glass-effect rounded-2xl shadow-xl p-6 sm:p-10 animate-fade-in-up w-full border border-gray-100 dark:border-gray-800">
        <button 
           onClick={onNewSearch}
-          className="w-full mb-6 px-6 py-3 bg-rose-600 text-white font-semibold rounded-lg shadow-md hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 dark:focus:ring-offset-gray-900 transition-all"
+          className="w-full mb-8 px-6 py-4 bg-rose-600 text-white font-bold rounded-xl shadow-lg hover:bg-rose-700 hover:shadow-rose-500/20 transform hover:-translate-y-0.5 transition-all"
         >
           {t.newSearchButton}
         </button>
 
       {recipe.imageUrl && (
-        <div className="mb-6 rounded-xl overflow-hidden shadow-lg aspect-w-16 aspect-h-9">
-          <img src={recipe.imageUrl} alt={recipe.recipeName} className="w-full h-full object-cover" />
+        <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl aspect-video relative group">
+          <img src={recipe.imageUrl} alt={recipe.recipeName} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
       )}
 
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{recipe.recipeName}</h2>
-      <p className="text-gray-600 dark:text-white mb-6">{recipe.description}</p>
+      <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-3 tracking-tight">{recipe.recipeName}</h2>
+      <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">{recipe.description}</p>
       
-      <div className="flex items-center gap-6 mb-8 border-y border-gray-200/50 dark:border-gray-700/50 py-4">
-        <button onClick={() => onLike(recipe.recipeName)} className="flex items-center gap-2 text-gray-600 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
-          <HeartIcon isLiked={recipe.isLiked} className={`h-6 w-6 transition-all duration-300 ${recipe.isLiked ? 'text-rose-500' : 'text-gray-400 dark:text-white'}`}/>
-          <span className={`font-semibold transition-colors duration-300 ${recipe.isLiked ? 'text-rose-600 dark:text-rose-400' : 'dark:text-white'}`}>
+      <div className="flex items-center gap-8 mb-8 border-y border-gray-100 dark:border-gray-800 py-5">
+        <button onClick={() => onLike(recipe.recipeName)} className="flex items-center gap-2 group">
+          <HeartIcon isLiked={recipe.isLiked} className={`h-7 w-7 transition-all duration-300 transform group-hover:scale-110 ${recipe.isLiked ? 'text-rose-500' : 'text-gray-400 dark:text-gray-500'}`}/>
+          <span className={`text-lg font-bold transition-colors ${recipe.isLiked ? 'text-rose-600' : 'text-gray-600 dark:text-gray-400'}`}>
             {recipe.likes} {t.likes}
           </span>
         </button>
-        <button onClick={() => onSaveToggle(recipe.recipeName)} className="flex items-center gap-2 text-gray-600 dark:text-white hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
-          <BookmarkIcon isSaved={recipe.isSaved} className={`h-6 w-6 transition-all duration-300 ${recipe.isSaved ? 'text-rose-500' : 'dark:text-white'}`} />
-          <span className={`font-semibold transition-colors duration-300 ${recipe.isSaved ? 'text-rose-600 dark:text-rose-400' : 'dark:text-white'}`}>
+        <button onClick={() => onSaveToggle(recipe.recipeName)} className="flex items-center gap-2 group">
+          <BookmarkIcon isSaved={recipe.isSaved} className={`h-7 w-7 transition-all duration-300 transform group-hover:scale-110 ${recipe.isSaved ? 'text-rose-500' : 'text-gray-400 dark:text-gray-500'}`} />
+          <span className={`text-lg font-bold transition-colors ${recipe.isSaved ? 'text-rose-600' : 'text-gray-600 dark:text-gray-400'}`}>
             {recipe.isSaved ? t.unsaveRecipe : t.saveRecipe}
           </span>
         </button>
       </div>
 
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8 text-center">
-        <div className="bg-rose-50/70 dark:bg-rose-950/70 p-3 rounded-lg border dark:border-rose-900/50">
-          <p className="text-sm font-medium text-rose-600 dark:text-rose-300">{t.prepTime}</p>
-          <p className="font-bold text-gray-800 dark:text-white">{recipe.prepTime}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+        <div className="bg-rose-50/50 dark:bg-rose-900/10 p-5 rounded-2xl border border-rose-100/50 dark:border-rose-900/20 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1">{t.prepTime}</p>
+          <p className="text-xl font-extrabold text-gray-900 dark:text-white">{recipe.prepTime}</p>
         </div>
-        <div className="bg-rose-50/70 dark:bg-rose-950/70 p-3 rounded-lg border dark:border-rose-900/50">
-          <p className="text-sm font-medium text-rose-600 dark:text-rose-300">{t.cookTime}</p>
-          <p className="font-bold text-gray-800 dark:text-white">{recipe.cookTime}</p>
+        <div className="bg-rose-50/50 dark:bg-rose-900/10 p-5 rounded-2xl border border-rose-100/50 dark:border-rose-900/20 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1">{t.cookTime}</p>
+          <p className="text-xl font-extrabold text-gray-900 dark:text-white">{recipe.cookTime}</p>
         </div>
-        <div className="bg-rose-50/70 dark:bg-rose-950/70 p-3 rounded-lg col-span-2 sm:col-span-1 border dark:border-rose-900/50">
-          <p className="text-sm font-medium text-rose-600 dark:text-rose-300">{t.servings}</p>
-          <p className="font-bold text-gray-800 dark:text-white">{recipe.servings}</p>
+        <div className="bg-rose-50/50 dark:bg-rose-900/10 p-5 rounded-2xl border border-rose-100/50 dark:border-rose-900/20 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1">{t.servings}</p>
+          <p className="text-xl font-extrabold text-gray-900 dark:text-white">{recipe.servings}</p>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white border-b-2 border-rose-500 pb-2 mb-4">{t.ingredients}</h3>
-          <ul className="space-y-2 list-disc list-inside text-gray-700 dark:text-white">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-1">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+            <span className="w-1.5 h-8 bg-rose-500 rounded-full"></span>
+            {t.ingredients}
+          </h3>
+          <ul className="space-y-4">
             {recipe.ingredients.map((ingredient, index) => (
-              <li key={index} className="dark:text-white">{ingredient}</li>
+              <li key={index} className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                <div className="w-1.5 h-1.5 bg-rose-400 rounded-full flex-shrink-0"></div>
+                {ingredient}
+              </li>
             ))}
           </ul>
         </div>
 
-        <div className="md:col-span-2">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white border-b-2 border-rose-500 pb-2 mb-4">{t.instructions}</h3>
-          <ol className="space-y-4 text-gray-700 dark:text-white">
+        <div className="lg:col-span-2">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+            <span className="w-1.5 h-8 bg-rose-500 rounded-full"></span>
+            {t.instructions}
+          </h3>
+          <div className="space-y-8">
             {recipe.instructions.map((step, index) => (
-              <li key={index} className="flex items-start">
-                <span className="mr-3 flex-shrink-0 bg-rose-500 text-white rounded-full h-6 w-6 text-sm font-bold flex items-center justify-center">{index + 1}</span>
-                <span className="dark:text-white">{step}</span>
-              </li>
+              <div key={index} className="flex gap-5">
+                <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-rose-500 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-rose-500/30">
+                  {index + 1}
+                </span>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed pt-0.5">
+                  {step}
+                </p>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </div>
       
-      <div className="mt-8 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">{t.commentsTitle} ({recipe.comments.length})</h3>
-        <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
+      <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.commentsTitle}</h3>
+        <div className="space-y-4 mb-8">
           {recipe.comments.map((comment, index) => (
-            <div key={index} className="bg-gray-50/50 dark:bg-gray-800/80 p-3 rounded-lg border dark:border-gray-700/50">
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">{comment.author}</p>
-              <p className="text-gray-700 dark:text-white">{comment.text}</p>
+            <div key={index} className="bg-gray-50/50 dark:bg-gray-900/30 p-5 rounded-2xl border border-gray-100 dark:border-gray-800/50">
+              <div className="flex justify-between items-center mb-2">
+                <p className="font-bold text-gray-900 dark:text-white">{comment.author}</p>
+                <span className="text-xs text-gray-400">Personal Note</span>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400">{comment.text}</p>
             </div>
           ))}
         </div>
-        <form onSubmit={handleCommentSubmit} className="mt-4 flex items-center gap-2">
+        <form onSubmit={handleCommentSubmit} className="flex items-center gap-3">
           <input
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder={t.addCommentPlaceholder}
-            className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 text-gray-900 dark:text-white"
+            className="flex-grow px-5 py-3.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all dark:text-white"
           />
-          <button type="submit" className="p-3 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors" aria-label={t.postCommentButton}>
-            <SendIcon className="h-5 w-5" />
+          <button type="submit" className="p-3.5 bg-rose-600 text-white rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-500/20 transition-all active:scale-95">
+            <SendIcon className="h-6 w-6" />
           </button>
         </form>
       </div>
 
       {videoUrl && (
-        <div className="mt-8 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
-          <h3 className="text-lg font-semibold text-center text-gray-800 dark:text-white mb-4">{t.shareRecipeTitle}</h3>
-          <div className="flex justify-center items-center gap-4 flex-wrap">
-            <a onClick={playClickSound} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(videoUrl)}&quote=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1877F2] rounded-lg hover:bg-opacity-90 transition-colors" aria-label="Share on Facebook"><FacebookIcon className="h-5 w-5" /><span>Facebook</span></a>
-            <a onClick={playClickSound} href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(videoUrl)}&text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1DA1F2] rounded-lg hover:bg-opacity-90 transition-colors" aria-label="Share on Twitter"><TwitterIcon className="h-5 w-5" /><span>Twitter</span></a>
-            <a onClick={playClickSound} href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#25D366] rounded-lg hover:bg-opacity-90 transition-colors" aria-label="Share on WhatsApp"><WhatsAppIcon className="h-5 w-5" /><span>WhatsApp</span></a>
-            <button onClick={handleCopy} className={`flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors ${isCopied ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-700'}`} aria-label="Copy video link"><CopyIcon className="h-5 w-5" /><span>{isCopied ? t.copiedButton : t.copyLinkButton}</span></button>
+        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 text-center">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 tracking-wide uppercase">{t.shareRecipeTitle}</h3>
+          <div className="flex justify-center items-center gap-5 flex-wrap">
+            <a onClick={playClickSound} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(videoUrl)}&quote=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#1877F2] text-white rounded-full hover:scale-110 transition-transform shadow-lg"><FacebookIcon className="h-6 w-6" /></a>
+            <a onClick={playClickSound} href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(videoUrl)}&text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#000000] text-white rounded-full hover:scale-110 transition-transform shadow-lg"><TwitterIcon className="h-6 w-6" /></a>
+            <a onClick={playClickSound} href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#25D366] text-white rounded-full hover:scale-110 transition-transform shadow-lg"><WhatsAppIcon className="h-6 w-6" /></a>
+            <button onClick={handleCopy} className={`p-3 rounded-full hover:scale-110 transition-transform shadow-lg ${isCopied ? 'bg-green-600' : 'bg-gray-700'} text-white`} title={t.copyLinkButton}><CopyIcon className="h-6 w-6" /></button>
           </div>
+          {isCopied && <p className="text-green-600 text-sm font-bold mt-2 animate-bounce">{t.copiedButton}</p>}
         </div>
       )}
     </div>
